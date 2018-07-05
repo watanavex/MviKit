@@ -10,13 +10,15 @@ extension {{ type.name }}: LogConvertible {
             {% else %}
                 case .{{ case.name }}:
             {% endif %}
-#if DEBUG
-{\"type\":\"\({{ type.name }}.self)\",\"name\":\"{{ case.name }}\"}
-#else
-              return """
-{% if type.name|hasSuffix:"Intent" %}{\"type\":\"\({{ type.name }}.self)\",\"name\":\"{{ case.name }}\"}{% else %}{% endif %}
-"""
-#endif
+        #if DEBUG
+        return """
+        {\"type\":\"\({{ type.name }}.self)\",\"name\":\"{{ case.name }}\"}
+        """
+        #else
+        return """
+        {% if type.name|hasSuffix:"Intent" %}{\"type\":\"\({{ type.name }}.self)\",\"name\":\"{{ case.name }}\"}{% else %}{% endif %}
+        """
+        #endif
         {% endfor %}
         }
     }
@@ -53,3 +55,4 @@ extension {{ type.name }}: LogConvertible {
     }
 }
 {% endif %}
+{% endfor %}
