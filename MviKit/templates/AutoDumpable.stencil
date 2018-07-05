@@ -1,0 +1,57 @@
+// MARK: - AutoDumpable for Enums
+{% for type in types.implementing.AutoDumpable|enum %}
+// MARK: - {{ type.name }} AutoDumpable 🐟
+extension {{ type.name }}: LogConvertible {
+    func dump() -> String {
+        switch (self) {
+        {% for case in type.cases %}
+            {% if case.hasAssociatedValue %}
+                case .{{ case.name }} (let val):
+            {% else %}
+                case .{{ case.name }}:
+            {% endif %}
+#if DEBUG
+{\"type\":\"\({{ type.name }}.self)\",\"name\":\"{{ case.name }}\"}
+#else
+              return """
+{% if type.name|hasSuffix:"Intent" %}{\"type\":\"\({{ type.name }}.self)\",\"name\":\"{{ case.name }}\"}{% else %}{% endif %}
+"""
+#endif
+        {% endfor %}
+        }
+    }
+}
+{% endfor %}
+
+// MARK: - AutoDumpable for classes, protocols, structs
+{% for type in types.implementing.AutoDumpable|!enum %}
+// MARK: - {{ type.name }} AutoDumpable 🐟
+{% if not type.kind == "protocol" %}
+extension {{ type.name }}: LogConvertible {
+    func dump() -> String {
+#if DEBUG
+        return """
+        {
+            "type" : "\({{ type.name }}.self)",
+            "name" : "{{ case.name }}",
+        {% for variable in type.allVariables %}
+            {% if variable.isArray and variable.isOptional %}
+            "{{ variable.name }}" : \(({{ variable.name }}?.count as Any?) ?? "null"),
+            {% elif variable.isArray %}
+            "{{ variable.name }}" : \({{ variable.name }}.count),
+            {% elif variable.isOptional %}
+            "{{ variable.name }}" : "\(({{ variable.name }} as Any?) ?? "null")",
+            {% else %}
+            "{{ variable.name }}" : "\({{ variable.name }})",
+            {% endif %}
+        {% endfor %}
+        }
+        """
+#else
+        return ""
+#endif
+    }
+}
+{% endif %}
+{% if type.supertype.implements.AutoDumpable %}THIS WONT COMPILE, WE DONT SUPPORT INHERITANCE for AutoDumpable{% endif %}
+{% endfor %}

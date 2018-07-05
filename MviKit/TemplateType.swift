@@ -8,4 +8,5 @@
 
 import Foundation
 
-public protocol AutoCaseCheckable { }
+public protocol AutoCases { }
+public protocol AutoDumpable { }
