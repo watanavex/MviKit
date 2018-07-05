@@ -10,6 +10,6 @@ import Foundation
 
 public protocol AutoCases { }
 public protocol AutoDumpable { }
-protocol LogConvertible {
+public protocol LogConvertible {
     func dump() -> String
 }
