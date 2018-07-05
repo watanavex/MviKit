@@ -8,4 +8,6 @@
 
 import Foundation
 
-public protocol MviState { }
+public protocol MviState: Equatable {
+     static func `default`() -> Self
+}
