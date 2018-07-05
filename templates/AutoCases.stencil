@@ -13,7 +13,7 @@ extension {{ enum.name }} {
     }
     {% endif %}
 
-    {% for case in type.cases %}
+    {% for case in enum.cases %}
     func is{{ case.name|upperFirstLetter }}() -> Bool {
         {% ifnot case.hasAssociatedValue %}
         if case .{{ case.name }} = self {
@@ -34,10 +34,10 @@ extension {{ enum.name }} {
     func isNot{{ case.name|upperFirstLetter }}() -> Bool {
         return !self.is{{ case.name|upperFirstLetter }}()
     }
-    static func is{{ case.name|upperFirstLetter }}(_ `case`: {{ type.name }}) -> Bool {
+    static func is{{ case.name|upperFirstLetter }}(_ `case`: {{ enum.name }}) -> Bool {
         return `case`.is{{ case.name|upperFirstLetter }}()
     }
-    static func isNot{{ case.name|upperFirstLetter }}(_ `case`: {{ type.name }}) -> Bool {
+    static func isNot{{ case.name|upperFirstLetter }}(_ `case`: {{ enum.name }}) -> Bool {
         return !`case`.is{{ case.name|upperFirstLetter }}()
     }
     {% endfor %}
