@@ -9,35 +9,35 @@
 import Foundation
 import RxSwift
 
-protocol ComposeTransformerProtocol {
+public protocol ComposeTransformerProtocol {
     associatedtype upstream
     associatedtype downstream
     
     func call(_ observable: Observable<upstream>) -> Observable<downstream>
 }
 
-final class ComposeTransformer<T, R>: ComposeTransformerProtocol {
+public final class ComposeTransformer<T, R>: ComposeTransformerProtocol {
     
-    typealias upstream = T
-    typealias downstream = R
+    public typealias upstream = T
+    public typealias downstream = R
     
     private let _call: (Observable<T>) -> Observable<R>
     
-    init<Impl: ComposeTransformerProtocol>(_ impl: Impl) where Impl.upstream == T, Impl.downstream == R {
+    public init<Impl: ComposeTransformerProtocol>(_ impl: Impl) where Impl.upstream == T, Impl.downstream == R {
         self._call = impl.call
     }
     
-    init(transformer: @escaping (Observable<T>) -> Observable<R>) {
+    public init(transformer: @escaping (Observable<T>) -> Observable<R>) {
         self._call = transformer
     }
     
-    func call(_ observable: Observable<T>) -> Observable<R> {
+    public func call(_ observable: Observable<T>) -> Observable<R> {
         return self._call(observable)
     }
 }
 
 extension ObservableType {
-    func compose<T>(_ transformer: ComposeTransformer<E, T>) -> Observable<T> {
+    public func compose<T>(_ transformer: ComposeTransformer<E, T>) -> Observable<T> {
         return transformer.call(self.asObservable())
     }
 }
