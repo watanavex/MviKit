@@ -1,3 +1,5 @@
+import MviKit
+
 // MARK: - AutoDumpable for Enums
 {% for type in types.based.AutoDumpable|enum %}
 // MARK: - {{ type.name }} AutoDumpable 🐟
