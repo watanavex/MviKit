@@ -9,5 +9,5 @@
 import Foundation
 
 public protocol MviResult { }
-public protocol MviStateSeed: MviResult { }
-public protocol MviTaskSeed: MviResult { }
+public protocol MviRetentionResult: MviResult { }
+public protocol MviDisposableResult: MviResult { }
