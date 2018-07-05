@@ -1,5 +1,5 @@
 // MARK: - AutoDumpable for Enums
-{% for type in types.implementing.AutoDumpable|enum %}
+{% for type in types.based.AutoDumpable|enum %}
 // MARK: - {{ type.name }} AutoDumpable 🐟
 extension {{ type.name }}: LogConvertible {
     func dump() -> String {
@@ -24,7 +24,7 @@ extension {{ type.name }}: LogConvertible {
 {% endfor %}
 
 // MARK: - AutoDumpable for classes, protocols, structs
-{% for type in types.implementing.AutoDumpable|!enum %}
+{% for type in types.based.AutoDumpable|!enum %}
 // MARK: - {{ type.name }} AutoDumpable 🐟
 {% if not type.kind == "protocol" %}
 extension {{ type.name }}: LogConvertible {
@@ -53,5 +53,3 @@ extension {{ type.name }}: LogConvertible {
     }
 }
 {% endif %}
-{% if type.supertype.implements.AutoDumpable %}THIS WONT COMPILE, WE DONT SUPPORT INHERITANCE for AutoDumpable{% endif %}
-{% endfor %}

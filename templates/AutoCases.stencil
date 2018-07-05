@@ -1,4 +1,4 @@
-{% for enum in types.implementing.AutoCases|enum %}
+{% for enum in types.based.AutoCases|enum %}
 extension {{ enum.name }} {
     static var count: Int {
         return {{ enum.cases.count }}

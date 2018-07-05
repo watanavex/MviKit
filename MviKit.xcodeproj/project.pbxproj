@@ -53,6 +53,7 @@
 		EF184F4420EDCEFC00CCB0F9 = {
 			isa = PBXGroup;
 			children = (
+				EF184F7B20EDD27900CCB0F9 /* templates */,
 				EF184F5020EDCEFC00CCB0F9 /* MviKit */,
 				EF184F4F20EDCEFC00CCB0F9 /* Products */,
 				EF184F6720EDCF3B00CCB0F9 /* Frameworks */,
@@ -80,7 +81,6 @@
 				EF184F5C20EDCF1300CCB0F9 /* MviTask.swift */,
 				EF184F5E20EDCF1300CCB0F9 /* MviViewModel.swift */,
 				EF184F6D20EDD05500CCB0F9 /* TemplateType.swift */,
-				EF184F7B20EDD27900CCB0F9 /* templates */,
 			);
 			path = MviKit;
 			sourceTree = "<group>";
