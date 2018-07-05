@@ -16,7 +16,7 @@ public protocol MviProcessorProtocol {
     func process(action: Action) -> Observable<Result>
 }
 
-public final class AnyProcessor<A, R>: MviProcessorProtocol {
+public final class AnyProcessor<A, R>: MviProcessorProtocol where A: MviAction, R: MviResult {
     
     public typealias Action = A
     public typealias Result = R
