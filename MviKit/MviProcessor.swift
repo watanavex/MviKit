@@ -9,17 +9,17 @@
 import Foundation
 import RxSwift
 
-protocol MviProcessorProtocol {
+public protocol MviProcessorProtocol {
     associatedtype Action
     associatedtype Result
     
     func process(action: Action) -> Observable<Result>
 }
 
-final class AnyProcessor<A, R>: MviProcessorProtocol {
+public final class AnyProcessor<A, R>: MviProcessorProtocol {
     
-    typealias Action = A
-    typealias Result = R
+    public typealias Action = A
+    public typealias Result = R
     
     private let _process: (Action)->Observable<Result>
     
@@ -27,7 +27,7 @@ final class AnyProcessor<A, R>: MviProcessorProtocol {
         self._process = impl.process
     }
     
-    func process(action: Action) -> Observable<Result> {
+    public func process(action: Action) -> Observable<Result> {
         return self._process(action)
     }
 }

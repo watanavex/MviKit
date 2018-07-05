@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol MviResult { }
-protocol MviStateSeed: MviResult { }
-protocol MviTaskSeed: MviResult { }
+public protocol MviResult { }
+public protocol MviStateSeed: MviResult { }
+public protocol MviTaskSeed: MviResult { }

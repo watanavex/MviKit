@@ -8,4 +8,4 @@
 
 import Foundation
 
-protocol MviIntent { }
+public protocol MviIntent { }

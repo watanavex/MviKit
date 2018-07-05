@@ -8,4 +8,4 @@
 
 import Foundation
 
-protocol MviAction { }
+public protocol MviAction { }

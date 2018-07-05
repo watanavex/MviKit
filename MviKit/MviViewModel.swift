@@ -9,7 +9,7 @@
 import Foundation
 import RxSwift
 
-protocol MviViewModelProtocol {
+public protocol MviViewModelProtocol {
     associatedtype Intent
     associatedtype State
     associatedtype Task
@@ -19,11 +19,11 @@ protocol MviViewModelProtocol {
     func process(intents: Observable<Intent>)
 }
 
-final class AnyViewModel<I, S, T>: MviViewModelProtocol {
+public final class AnyViewModel<I, S, T>: MviViewModelProtocol {
     
-    typealias Intent = I
-    typealias State = S
-    typealias Task = T
+    public typealias Intent = I
+    public typealias State = S
+    public typealias Task = T
     
     private let _state: ()->Observable<State>
     private let _task: ()->Observable<Task>
@@ -35,13 +35,13 @@ final class AnyViewModel<I, S, T>: MviViewModelProtocol {
         self._task = impl.task
     }
     
-    func state() -> Observable<State> {
+    public func state() -> Observable<State> {
         return self._state()
     }
-    func process(intents: Observable<Intent>) {
+    public func process(intents: Observable<Intent>) {
         self._processIntent(intents)
     }
-    func task() -> Observable<Task> {
+    public func task() -> Observable<Task> {
         return self._task()
     }
 }
