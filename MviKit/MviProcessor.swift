@@ -23,7 +23,7 @@ public final class AnyProcessor<A, R>: MviProcessorProtocol {
     
     private let _process: (Action)->Observable<Result>
     
-    init<Impl: MviProcessorProtocol>(_ impl: Impl) where Impl.Action == A, Impl.Result == R {
+    public init<Impl: MviProcessorProtocol>(_ impl: Impl) where Impl.Action == A, Impl.Result == R {
         self._process = impl.process
     }
     
