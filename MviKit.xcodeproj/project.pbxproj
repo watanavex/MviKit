@@ -19,6 +19,7 @@
 		EF184F6E20EDD05500CCB0F9 /* TemplateType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF184F6D20EDD05500CCB0F9 /* TemplateType.swift */; };
 		EF3BF46B20EDE4160096AE19 /* AutoCases.stencil in Resources */ = {isa = PBXBuildFile; fileRef = EF3BF46A20EDE4160096AE19 /* AutoCases.stencil */; };
 		EF3BF46D20EDE4260096AE19 /* AutoDumpable.stencil in Resources */ = {isa = PBXBuildFile; fileRef = EF3BF46C20EDE4260096AE19 /* AutoDumpable.stencil */; };
+		EF3BF4AB20EDF2D30096AE19 /* ObservableType+compose.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3BF4AA20EDF2D30096AE19 /* ObservableType+compose.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		EF184F6D20EDD05500CCB0F9 /* TemplateType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateType.swift; sourceTree = "<group>"; };
 		EF3BF46A20EDE4160096AE19 /* AutoCases.stencil */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AutoCases.stencil; sourceTree = "<group>"; };
 		EF3BF46C20EDE4260096AE19 /* AutoDumpable.stencil */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = AutoDumpable.stencil; sourceTree = "<group>"; };
+		EF3BF4AA20EDF2D30096AE19 /* ObservableType+compose.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObservableType+compose.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 				EF184F5920EDCF1200CCB0F9 /* MviState.swift */,
 				EF184F5C20EDCF1300CCB0F9 /* MviTask.swift */,
 				EF184F5E20EDCF1300CCB0F9 /* MviViewModel.swift */,
+				EF3BF4AA20EDF2D30096AE19 /* ObservableType+compose.swift */,
 				EF184F6D20EDD05500CCB0F9 /* TemplateType.swift */,
 			);
 			path = MviKit;
@@ -183,6 +186,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF3BF4AB20EDF2D30096AE19 /* ObservableType+compose.swift in Sources */,
 				EF184F6020EDCF1300CCB0F9 /* MviState.swift in Sources */,
 				EF184F6620EDCF1300CCB0F9 /* MviProcessor.swift in Sources */,
 				EF184F6220EDCF1300CCB0F9 /* MviAction.swift in Sources */,
