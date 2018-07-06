@@ -10,9 +10,9 @@ import Foundation
 import RxSwift
 
 public protocol MviViewModelProtocol {
-    associatedtype Intent
-    associatedtype State
-    associatedtype Task
+    associatedtype Intent: MviIntent
+    associatedtype State: MviState
+    associatedtype Task: MviTask
 
     var state: Observable<State> { get }
     var task: Observable<Task> { get }
@@ -25,54 +25,54 @@ open class MviViewModel<I, S, T, A, RR, DR>: MviViewModelProtocol where I: MviIn
     public typealias State = S
     public typealias Task = T
     public typealias Action = A
-    public typealias Result = R
+    public typealias Result = MviResult<RR, DR>
     public typealias RetentionResult = RR
     public typealias DisposableResult = DR
+    public typealias Processor = AnyProcessor<Action, RetentionResult, DisposableResult>
 
     private let intentsSubject = PublishSubject<Intent>()
-    let processor: AnyProcessor<Action, Result>
+    public let processor: Processor
     let disposeBag = DisposeBag()
 
     private lazy var result: Observable<Result> = {
-        return self.resultObservable(intentsSubject: self.intentsSubject)
-    }()
-    public lazy var state: Observable<State> = {
-        return self.stateObservable(resultObservable: self.result)
-    }()
-    public lazy var task: Observable<Task> = {
-        return self.taskObservable(resultObservable: self.result)
-    }()
-
-    private func resultObservable(intentsSubject: PublishSubject<Intent>) -> Observable<Result> {
-        let connectable = intentsSubject
+        return intentsSubject
             .compose(self.intentFilter())
             .map(self.actionFrom)
             .flatMap(self.processor.process)
-            .publish()
-        connectable.connect().disposed(by: self.disposeBag)
-        return connectable
-    }
-    private func stateObservable(resultObservable: Observable<Result>) -> Observable<State> {
-        let connectable = resultObservable.filter { $0 is RetentionResult }
-            .map { $0 as! RetentionResult }
+            .share()
+    }()
+    public lazy var state: Observable<State> = {
+        let connectable = self.result
+            .map { result -> RetentionResult? in
+                switch result {
+                case .retentionResult(let r): return r
+                case .disposableResult: return nil
+                }
+            }
+            .filter { $0 != nil }.map { $0! }
             .scan(State.default(), accumulator: self.reducer)
             .distinctUntilChanged()
             .replay(1)
         connectable.connect().disposed(by: self.disposeBag)
         return connectable
-    }
-    private func taskObservable(resultObservable: Observable<Result>) -> Observable<Task> {
-        let connectable = resultObservable.filter { $0 is DisposableResult }
-            .map { $0 as! DisposableResult }
+    }()
+    public lazy var task: Observable<Task> = {
+        let connectable = self.result
+            .map { result -> DisposableResult? in
+                switch result {
+                case .retentionResult: return nil
+                case .disposableResult(let d): return d
+                }
+            }
+            .filter { $0 != nil }.map { $0! }
             .map(self.taskFrom)
             .publish()
-
         connectable.connect().disposed(by: self.disposeBag)
         return connectable
-    }
+    }()
 
     // MARK: - Initializer
-    public init(processor: AnyProcessor<Action, Result>) {
+    public init(processor: Processor) {
         self.processor = processor
     }
 
@@ -81,6 +81,7 @@ open class MviViewModel<I, S, T, A, RR, DR>: MviViewModelProtocol where I: MviIn
         _ = intents.subscribe(self.intentsSubject)
     }
 
+    // MARK: -
     public func intentFilter() -> ComposeTransformer<Intent, Intent> {
         fatalError()
     }
@@ -98,7 +99,7 @@ open class MviViewModel<I, S, T, A, RR, DR>: MviViewModelProtocol where I: MviIn
     }
 }
 
-public final class AnyViewModel<I, S, T>: MviViewModelProtocol {
+public final class AnyViewModel<I, S, T>: MviViewModelProtocol where I: MviIntent, S: MviState, T: MviTask {
 
     public typealias Intent = I
     public typealias State = S
