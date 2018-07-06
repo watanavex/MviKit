@@ -24,11 +24,14 @@ open class MviProcessor<A, RR, DR>: MviProcessorProtocol where A: MviAction, RR:
     public typealias DisposableResult = DR
     public typealias Result = MviResult<RetentionResult, DisposableResult>
 
-    public func process(action: Action) -> Observable<Result> {
+    public init() {
+    }
+    
+    open func process(action: Action) -> Observable<Result> {
         return self.execute(action: action)
     }
 
-    public func execute(action: Action) -> Observable<Result> {
+    open func execute(action: Action) -> Observable<Result> {
         fatalError()
     }
 }

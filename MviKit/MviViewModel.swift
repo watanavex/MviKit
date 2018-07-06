@@ -77,24 +77,24 @@ open class MviViewModel<I, S, T, A, RR, DR>: MviViewModelProtocol where I: MviIn
     }
 
     // MARK: - Public functions
-    public func process(intents: Observable<Intent>) {
+    open func process(intents: Observable<Intent>) {
         _ = intents.subscribe(self.intentsSubject)
     }
 
     // MARK: -
-    public func intentFilter() -> ComposeTransformer<Intent, Intent> {
+    open func intentFilter() -> ComposeTransformer<Intent, Intent> {
         fatalError()
     }
 
-    public func actionFrom(intent: Intent) -> Action {
+    open func actionFrom(intent: Intent) -> Action {
         fatalError()
     }
 
-    public func taskFrom(result: DisposableResult) -> Task {
+    open func taskFrom(result: DisposableResult) -> Task {
         fatalError()
     }
 
-    public func reducer(previousState: State, result: RetentionResult) -> State {
+    open func reducer(previousState: State, result: RetentionResult) -> State {
         fatalError()
     }
 }
