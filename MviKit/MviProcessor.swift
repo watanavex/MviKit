@@ -12,21 +12,21 @@ import RxSwift
 public protocol MviProcessorProtocol {
     associatedtype Action
     associatedtype Result
-    
+
     func process(action: Action) -> Observable<Result>
 }
 
-public final class AnyProcessor<A, R>: MviProcessorProtocol where A: MviAction, R: MviResult {
-    
+open class MviProcessor<A, RR, DR>: MviProcessorProtocol where A: MviAction, RR: MviRetentionResult, DR: MviDisposableResult {
+
     public typealias Action = A
     public typealias Result = R
-    
+
     private let _process: (Action)->Observable<Result>
-    
+
     public init<Impl: MviProcessorProtocol>(_ impl: Impl) where Impl.Action == A, Impl.Result == R {
         self._process = impl.process
     }
-    
+
     public func process(action: Action) -> Observable<Result> {
         return self._process(action)
     }

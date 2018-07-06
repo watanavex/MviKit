@@ -8,6 +8,12 @@
 
 import Foundation
 
-public protocol MviResult { }
-public protocol MviRetentionResult: MviResult { }
-public protocol MviDisposableResult: MviResult { }
+public enum MviResult<R, D> {
+    public typealias RetentionResult = R
+    public typealias DisposableResult = D
+    
+    case retentionResult(_ : RetentionResult)
+    case disposableResult(_ : DisposableResult)
+}
+public protocol MviRetentionResult { }
+public protocol MviDisposableResult { }
