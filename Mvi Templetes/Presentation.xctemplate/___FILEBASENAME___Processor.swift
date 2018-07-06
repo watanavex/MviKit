@@ -16,6 +16,9 @@ protocol ___FILEBASENAMEASIDENTIFIER___Protocol: MviProcessorProtocol where Acti
 class ___VARIABLE_productName:identifier___Processor: MviProcessor<___VARIABLE_productName:identifier___Action, ___VARIABLE_productName:identifier___RetentionResult, ___VARIABLE_productName:identifier___DisposableResult> {
 
     override func execute(action: Action) -> Observable<Result> {
-        return Observable.never()
+        switch action {
+        case .skipMe:
+            return Observable.never()
+        }
     }
 }

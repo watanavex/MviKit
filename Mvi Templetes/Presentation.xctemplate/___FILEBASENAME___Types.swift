@@ -25,10 +25,8 @@ enum ___VARIABLE_productName:identifier___Action: MviAction, AutoDumpable, AutoC
 // MARK: - Result
 typealias ___VARIABLE_productName:identifier___Result = MviResult<___VARIABLE_productName:identifier___RetentionResult, ___VARIABLE_productName:identifier___DisposableResult>
 enum ___VARIABLE_productName:identifier___RetentionResult: MviRetentionResult, AutoDumpable, AutoCases {
-    case dummy
 }
 enum ___VARIABLE_productName:identifier___DisposableResult: MviDisposableResult, AutoDumpable, AutoCases {
-    case dummy
 }
 
 // MARK: - State

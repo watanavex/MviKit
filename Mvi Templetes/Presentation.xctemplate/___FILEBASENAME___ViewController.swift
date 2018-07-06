@@ -16,13 +16,11 @@ class ___VARIABLE_productName:identifier___ViewController: UIViewController {
     typealias State = ___VARIABLE_productName:identifier___State
     typealias Task = ___VARIABLE_productName:identifier___Task
 
-    private let viewModel = TestContainer.resolver.resolve(AnyViewModel<Intent, State, Task>.self)!
+    private let viewModel = ___VARIABLE_productName:identifier___Container.resolver.resolve(AnyViewModel<Intent, State, Task>.self)!
     private let disposeBag = DisposeBag()
     private let intentPublisher = PublishSubject<Intent>()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    private func bind() {
         self.viewModel
             .state
             .asObservable()
@@ -31,7 +29,20 @@ class ___VARIABLE_productName:identifier___ViewController: UIViewController {
             })
             .disposed(by: self.disposeBag)
         self.viewModel
+            .task
+            .asObservable()
+            .subscribe(onNext: { [weak self] task in
+                self?.handler(task: task)
+            })
+            .disposed(by: self.disposeBag)
+        self.viewModel
             .process(intents: self.intents())
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.bind()
     }
 
     // MARK: - Intents
