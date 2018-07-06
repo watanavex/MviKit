@@ -20,7 +20,7 @@ public protocol MviViewModelProtocol {
 }
 
 open class MviViewModel<I, S, T, A, RR, DR>: MviViewModelProtocol where I: MviIntent, S: MviState, T: MviTask, A: MviAction, RR: MviRetentionResult, DR: MviDisposableResult {
-
+    
     public typealias Intent = I
     public typealias State = S
     public typealias Task = T
@@ -29,16 +29,16 @@ open class MviViewModel<I, S, T, A, RR, DR>: MviViewModelProtocol where I: MviIn
     public typealias RetentionResult = RR
     public typealias DisposableResult = DR
     public typealias Processor = AnyProcessor<Action, RetentionResult, DisposableResult>
-
+    
     private let intentsSubject = PublishSubject<Intent>()
     public let processor: Processor
     let disposeBag = DisposeBag()
-
+    
     private lazy var result: Observable<Result> = {
         return intentsSubject
             .compose(self.intentFilter())
-            .map(self.actionFrom)
-            .flatMap(self.processor.process)
+            .map { [unowned self] in self.actionFrom(intent: $0) }
+            .flatMap { [unowned self] in self.processor.process(action: $0) }
             .share()
     }()
     public lazy var state: Observable<State> = {
@@ -50,7 +50,9 @@ open class MviViewModel<I, S, T, A, RR, DR>: MviViewModelProtocol where I: MviIn
                 }
             }
             .filter { $0 != nil }.map { $0! }
-            .scan(State.default(), accumulator: self.reducer)
+            .scan(State.default(), accumulator: { [unowned self] (p, r) in
+                self.reducer(previousState: p, result: r)
+            })
             .distinctUntilChanged()
             .replay(1)
         connectable.connect().disposed(by: self.disposeBag)
@@ -65,35 +67,36 @@ open class MviViewModel<I, S, T, A, RR, DR>: MviViewModelProtocol where I: MviIn
                 }
             }
             .filter { $0 != nil }.map { $0! }
-            .map(self.taskFrom)
+            .map { [unowned self] in self.taskFrom(result: $0)  }
             .publish()
         connectable.connect().disposed(by: self.disposeBag)
         return connectable
     }()
-
+    
     // MARK: - Initializer
     public init(processor: Processor) {
         self.processor = processor
     }
-
+    
     // MARK: - Public functions
     open func process(intents: Observable<Intent>) {
-        _ = intents.subscribe(self.intentsSubject)
+        intents.subscribe(self.intentsSubject)
+            .disposed(by: self.disposeBag)
     }
-
+    
     // MARK: -
     open func intentFilter() -> ComposeTransformer<Intent, Intent> {
         fatalError()
     }
-
+    
     open func actionFrom(intent: Intent) -> Action {
         fatalError()
     }
-
+    
     open func taskFrom(result: DisposableResult) -> Task {
         fatalError()
     }
-
+    
     open func reducer(previousState: State, result: RetentionResult) -> State {
         fatalError()
     }
