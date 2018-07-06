@@ -1,3 +1,5 @@
+// MARK: - AutoCases for Enums
+
 {% for enum in types.based.AutoCases|enum %}
 extension {{ enum.name }} {
     static var count: Int {
