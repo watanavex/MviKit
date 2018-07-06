@@ -15,44 +15,9 @@ protocol ___FILEBASENAMEASIDENTIFIER___Protocol: MviViewModelProtocol where
     State == ___VARIABLE_productName:identifier___State,
     Task == ___VARIABLE_productName:identifier___Task { }
 
-class ___FILEBASENAMEASIDENTIFIER___: ___FILEBASENAMEASIDENTIFIER___Protocol {
+class ___FILEBASENAMEASIDENTIFIER___: MviViewModel<___VARIABLE_productName:identifier___Intent, ___VARIABLE_productName:identifier___State, ___VARIABLE_productName:identifier___Task, ___VARIABLE_productName:identifier___Action, ___VARIABLE_productName:identifier___RetentionResult, ___VARIABLE_productName:identifier___DisposableResult> {
 
-    typealias Intent = ___VARIABLE_productName:identifier___Intent
-    typealias State = ___VARIABLE_productName:identifier___State
-    typealias Task = ___VARIABLE_productName:identifier___Task
-    
-    typealias Action = ___VARIABLE_productName:identifier___Action
-    typealias Result = ___VARIABLE_productName:identifier___Result
-    typealias RetentionResult = ___VARIABLE_productName:identifier___RetentionResult
-    typealias DisposableResult = ___VARIABLE_productName:identifier___DisposableResult
-    
-    private let intentsSubject = PublishSubject<Intent>()
-    let processor: AnyProcessor<Action, Result>
-    let disposeBag = DisposeBag()
-    
-    private lazy var result: Observable<Result> = {
-        return self.resultObservable(intentsSubject: self.intentsSubject)
-    }()
-    lazy var state: Observable<State> = {
-        return self.stateObservable(resultObservable: self.result)
-    }()
-    lazy var task: Observable<Task> = {
-        return self.taskObservable(resultObservable: self.result)
-    }()
-    
-    // MARK: - Initializer
-    init(processor: AnyProcessor<Action, Result>) {
-        self.processor = processor
-    }
-    
-    // MARK: - Public functions
-    func process(intents: Observable<Intent>) {
-        _ = intents.subscribe(self.intentsSubject)
-    }
-    
-    // MARK: -
-    
-    func intentFilter() -> ComposeTransformer<Intent, Intent> {
+    override func intentFilter() -> ComposeTransformer<Intent, Intent> {
         return ComposeTransformer { upstream -> Observable<Intent> in
             let shared = upstream.publish().refCount()
             return Observable<Intent>.merge(
@@ -61,23 +26,23 @@ class ___FILEBASENAMEASIDENTIFIER___: ___FILEBASENAMEASIDENTIFIER___Protocol {
             )
         }
     }
-    
-    func actionFrom(intent: Intent) -> Action {
+
+    override func actionFrom(intent: Intent) -> Action {
         switch intent {
         case .initial: return .skipMe
         case .viewWillAppear: return .skipMe
         case .viewWillDisappear: return .skipMe
         }
     }
-    
-    func taskFrom(result: DisposableResult) -> Task {
+
+    override func taskFrom(result: DisposableResult) -> Task {
         var task = Task.default()
 //        switch result {
 //        }
         return task
     }
-    
-    func reducer(previousState: State, result: RetentionResult) -> State {
+
+    override func reducer(previousState: State, result: RetentionResult) -> State {
         var nextState = previousState
 //        switch result {
 //        }

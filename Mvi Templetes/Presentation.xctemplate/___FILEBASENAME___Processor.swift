@@ -10,21 +10,12 @@ import Foundation
 import MviKit
 import RxSwift
 
-protocol ___FILEBASENAMEASIDENTIFIER___Protocol: MviProcessorProtocol where Action == ___VARIABLE_productName:identifier___Action, Result == ___VARIABLE_productName:identifier___Result {
+protocol ___FILEBASENAMEASIDENTIFIER___Protocol: MviProcessorProtocol where Action == ___VARIABLE_productName:identifier___Action, RetentionResult == ___VARIABLE_productName:identifier___RetentionResult, DisposableResult == ___VARIABLE_productName:identifier___DisposableResult {
 }
 
-class ___FILEBASENAMEASIDENTIFIER___: ___FILEBASENAMEASIDENTIFIER___Protocol {
+class ___VARIABLE_productName:identifier___Processor: MviProcessor<___VARIABLE_productName:identifier___Action, ___VARIABLE_productName:identifier___RetentionResult, ___VARIABLE_productName:identifier___DisposableResult> {
 
-    typealias Action = ___VARIABLE_productName:identifier___Action
-    typealias Result = ___VARIABLE_productName:identifier___Result
-
-    func process(action: Action) -> Observable<Result> {
-        return self.execute(action: action)
-    }
-    
-    func execute(action: Action) -> Observable<Result> {
-//        switch action {
-//        }
+    override func execute(action: Action) -> Observable<Result> {
         return Observable.never()
     }
 }

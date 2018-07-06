@@ -11,18 +11,18 @@ import MviKit
 import RxSwift
 
 class ___VARIABLE_productName:identifier___ViewController: UIViewController {
-    
+
     typealias Intent = ___VARIABLE_productName:identifier___Intent
     typealias State = ___VARIABLE_productName:identifier___State
-    typealias Task = ___VARIABLE_productName:identifier___State
-    
+    typealias Task = ___VARIABLE_productName:identifier___Task
+
     private let viewModel = TestContainer.resolver.resolve(AnyViewModel<Intent, State, Task>.self)!
     private let disposeBag = DisposeBag()
     private let intentPublisher = PublishSubject<Intent>()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.viewModel
             .state
             .asObservable()
@@ -33,7 +33,7 @@ class ___VARIABLE_productName:identifier___ViewController: UIViewController {
         self.viewModel
             .process(intents: self.intents())
     }
-    
+
     // MARK: - Intents
     func intents() -> Observable<Intent> {
         return Observable.merge(
@@ -43,11 +43,11 @@ class ___VARIABLE_productName:identifier___ViewController: UIViewController {
             intentPublisher
         )
     }
-    
+
     // MARK: - Renders
     func render(state: State) {
     }
-    
+
     // MARK: - Handler
     func handler(task: Task) {
     }
