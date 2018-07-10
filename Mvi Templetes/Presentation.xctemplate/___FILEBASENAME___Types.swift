@@ -38,15 +38,5 @@ struct ___VARIABLE_productName:identifier___State: MviState, Equatable, AutoDump
 }
 
 // MARK: - Task
-struct ___VARIABLE_productName:identifier___Task: MviTask, Equatable, AutoDumpable {
-
-    static func `default`() -> ___VARIABLE_productName:identifier___Task {
-        return ___VARIABLE_productName:identifier___Task()
-    }
+enum ___VARIABLE_productName:identifier___Task: MviTask, AutoCases, AutoDumpable {
 }
-
-//enum ___VARIABLE_productName:identifier___Transition: Equatable, AutoCases {
-//}
-
-//struct ___VARIABLE_productName:identifier___Data: Equatable {
-//}

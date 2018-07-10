@@ -36,10 +36,7 @@ class ___FILEBASENAMEASIDENTIFIER___: MviViewModel<___VARIABLE_productName:ident
     }
 
     override func taskFrom(result: DisposableResult) -> Task {
-        var task = Task.default()
-        switch result {
-        }
-        return task
+        // TODO: 
     }
 
     override func reducer(previousState: State, result: RetentionResult) -> State {
