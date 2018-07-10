@@ -7,11 +7,7 @@ extension {{ type.name }}: LogConvertible {
     func dump() -> String {
         switch (self) {
         {% for case in type.cases %}
-            {% if case.hasAssociatedValue %}
-                case .{{ case.name }} (let val):
-            {% else %}
-                case .{{ case.name }}:
-            {% endif %}
+        case .{{ case.name }}:
         #if DEBUG
         return """
         {\"type\":\"\({{ type.name }}.self)\",\"name\":\"{{ case.name }}\"}
