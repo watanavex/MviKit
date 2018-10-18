@@ -14,9 +14,8 @@ class ___VARIABLE_productName:identifier___ViewController: UIViewController {
 
     typealias Intent = ___VARIABLE_productName:identifier___Intent
     typealias State = ___VARIABLE_productName:identifier___State
-    typealias Task = ___VARIABLE_productName:identifier___Task
 
-    private let viewModel = ___VARIABLE_productName:identifier___Container.resolver.resolve(AnyViewModel<Intent, State, Task>.self)!
+    private let viewModel = ___VARIABLE_productName:identifier___Container.resolver.resolve(AnyViewModel<Intent, State>.self)!
     private let disposeBag = DisposeBag()
     private let intentPublisher = PublishSubject<Intent>()
 
@@ -26,13 +25,6 @@ class ___VARIABLE_productName:identifier___ViewController: UIViewController {
             .asObservable()
             .subscribe(onNext: { [weak self] state in
                 self?.render(state: state)
-            })
-            .disposed(by: self.disposeBag)
-        self.viewModel
-            .task
-            .asObservable()
-            .subscribe(onNext: { [weak self] task in
-                self?.handler(task: task)
             })
             .disposed(by: self.disposeBag)
         self.viewModel
@@ -57,9 +49,5 @@ class ___VARIABLE_productName:identifier___ViewController: UIViewController {
 
     // MARK: - Renders
     func render(state: State) {
-    }
-
-    // MARK: - Handler
-    func handler(task: Task) {
     }
 }

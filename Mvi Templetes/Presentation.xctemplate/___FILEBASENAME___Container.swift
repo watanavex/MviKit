@@ -14,22 +14,19 @@ class ___FILEBASENAMEASIDENTIFIER___ {
 
     typealias Intent = ___VARIABLE_productName:identifier___Intent
     typealias State = ___VARIABLE_productName:identifier___State
-    typealias Task = ___VARIABLE_productName:identifier___Task
     typealias Action = ___VARIABLE_productName:identifier___Action
-    typealias RetentionResult = ___VARIABLE_productName:identifier___RetentionResult
-    typealias DisposableResult = ___VARIABLE_productName:identifier___DisposableResult
-    typealias Result = MviResult<RetentionResult, DisposableResult>
+    typealias Result = ___VARIABLE_productName:identifier___Result
 
     static var resolver: Container = {
         let container = Container()
 
-        container.register(AnyViewModel<Intent, State, Task>.self) { resolver in
-            let processor = resolver.resolve(AnyProcessor<Action, RetentionResult, DisposableResult>.self)!
+        container.register(AnyViewModel<Intent, State>.self) { resolver in
+            let processor = resolver.resolve(AnyProcessor<Action, Result>.self)!
             return AnyViewModel(___VARIABLE_productName:identifier___ViewModel(processor: processor))
         }
-        .inObjectScope(.container)
+        .inObjectScope(.graph)
 
-        container.register(AnyProcessor<Action, RetentionResult, DisposableResult>.self) { resolver in
+        container.register(AnyProcessor<Action, Result>.self) { resolver in
             return AnyProcessor(___VARIABLE_productName:identifier___Processor())
         }
         .inObjectScope(.container)

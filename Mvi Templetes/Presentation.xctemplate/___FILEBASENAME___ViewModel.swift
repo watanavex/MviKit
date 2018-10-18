@@ -12,10 +12,9 @@ import RxSwift
 
 protocol ___FILEBASENAMEASIDENTIFIER___Protocol: MviViewModelProtocol where
     Intent == ___VARIABLE_productName:identifier___Intent,
-    State == ___VARIABLE_productName:identifier___State,
-    Task == ___VARIABLE_productName:identifier___Task { }
+    State == ___VARIABLE_productName:identifier___State { }
 
-class ___FILEBASENAMEASIDENTIFIER___: MviViewModel<___VARIABLE_productName:identifier___Intent, ___VARIABLE_productName:identifier___State, ___VARIABLE_productName:identifier___Task, ___VARIABLE_productName:identifier___Action, ___VARIABLE_productName:identifier___RetentionResult, ___VARIABLE_productName:identifier___DisposableResult> {
+class ___FILEBASENAMEASIDENTIFIER___: MviViewModel<___VARIABLE_productName:identifier___Intent, ___VARIABLE_productName:identifier___State, ___VARIABLE_productName:identifier___Action, ___VARIABLE_productName:identifier___Result> {
 
     override func intentFilter() -> ComposeTransformer<Intent, Intent> {
         return ComposeTransformer { upstream -> Observable<Intent> in
@@ -35,11 +34,7 @@ class ___FILEBASENAMEASIDENTIFIER___: MviViewModel<___VARIABLE_productName:ident
         }
     }
 
-    override func taskFrom(result: DisposableResult) -> Task {
-        // TODO: 
-    }
-
-    override func reducer(previousState: State, result: RetentionResult) -> State {
+    override func reducer(previousState: State, result: Result) -> State {
         var nextState = previousState
         switch result {
         }

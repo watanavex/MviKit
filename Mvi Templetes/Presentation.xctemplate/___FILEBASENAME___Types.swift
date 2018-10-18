@@ -23,10 +23,7 @@ enum ___VARIABLE_productName:identifier___Action: MviAction, AutoDumpable, AutoC
 }
 
 // MARK: - Result
-typealias ___VARIABLE_productName:identifier___Result = MviResult<___VARIABLE_productName:identifier___RetentionResult, ___VARIABLE_productName:identifier___DisposableResult>
-enum ___VARIABLE_productName:identifier___RetentionResult: MviRetentionResult, AutoDumpable, AutoCases {
-}
-enum ___VARIABLE_productName:identifier___DisposableResult: MviDisposableResult, AutoDumpable, AutoCases {
+enum ___VARIABLE_productName:identifier___Result: MviResult, AutoDumpable, AutoCases {
 }
 
 // MARK: - State
@@ -35,8 +32,4 @@ struct ___VARIABLE_productName:identifier___State: MviState, Equatable, AutoDump
     static func `default`() -> ___VARIABLE_productName:identifier___State {
         return ___VARIABLE_productName:identifier___State()
     }
-}
-
-// MARK: - Task
-enum ___VARIABLE_productName:identifier___Task: MviTask, AutoCases, AutoDumpable {
 }
