@@ -11,18 +11,15 @@ import RxSwift
 
 public protocol MviProcessorProtocol {
     associatedtype Action: MviAction
-    associatedtype RetentionResult: MviRetentionResult
-    associatedtype DisposableResult: MviDisposableResult
+    associatedtype Result: MviResult
 
-    func process(action: Action) -> Observable<MviResult<RetentionResult, DisposableResult>>
+    func process(action: Action) -> Observable<Result>
 }
 
-open class MviProcessor<A, RR, DR>: MviProcessorProtocol where A: MviAction, RR: MviRetentionResult, DR: MviDisposableResult {
+open class MviProcessor<A, R>: MviProcessorProtocol where A: MviAction, R: MviResult {
 
     public typealias Action = A
-    public typealias RetentionResult = RR
-    public typealias DisposableResult = DR
-    public typealias Result = MviResult<RetentionResult, DisposableResult>
+    public typealias Result = R
 
     public init() {
     }
@@ -36,14 +33,14 @@ open class MviProcessor<A, RR, DR>: MviProcessorProtocol where A: MviAction, RR:
     }
 }
 
-public final class AnyProcessor<A, RR, DR>: MviProcessorProtocol where A: MviAction, RR: MviRetentionResult, DR: MviDisposableResult {
+public final class AnyProcessor<A, R>: MviProcessorProtocol where A: MviAction, R: MviResult {
 
     public typealias Action = A
-    public typealias Result = MviResult<RR, DR>
+    public typealias Result = R
 
     private let _process: (Action)->Observable<Result>
 
-    public init<Impl: MviProcessorProtocol>(_ impl: Impl) where Impl.Action == A, Impl.RetentionResult == RR, Impl.DisposableResult == DR {
+    public init<Impl: MviProcessorProtocol>(_ impl: Impl) where Impl.Action == A, Impl.Result == R {
         self._process = impl.process
     }
 

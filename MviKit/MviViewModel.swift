@@ -12,63 +12,44 @@ import RxSwift
 public protocol MviViewModelProtocol {
     associatedtype Intent: MviIntent
     associatedtype State: MviState
-    associatedtype Task: MviTask
 
     var state: Observable<State> { get }
-    var task: Observable<Task> { get }
+    func currentState() -> State
     func process(intents: Observable<Intent>)
 }
 
-open class MviViewModel<I, S, T, A, RR, DR>: MviViewModelProtocol where I: MviIntent, S: MviState, T: MviTask, A: MviAction, RR: MviRetentionResult, DR: MviDisposableResult {
+open class MviViewModel<I, S, A, R>: MviViewModelProtocol where I: MviIntent, S: MviState, A: MviAction, R: MviResult {
     
     public typealias Intent = I
     public typealias State = S
-    public typealias Task = T
     public typealias Action = A
-    public typealias Result = MviResult<RR, DR>
-    public typealias RetentionResult = RR
-    public typealias DisposableResult = DR
-    public typealias Processor = AnyProcessor<Action, RetentionResult, DisposableResult>
+    public typealias Result = R
+    public typealias Processor = AnyProcessor<Action, Result>
     
     private let intentsSubject = PublishSubject<Intent>()
     public let processor: Processor
     let disposeBag = DisposeBag()
     
-    private lazy var result: Observable<Result> = {
-        return intentsSubject
+    private var _currentState: State = State.default()
+    public func currentState() -> State {
+        return self._currentState
+    }
+
+    public lazy var state: Observable<State> = {
+        let connectable = self.intentsSubject
             .compose(self.intentFilter())
             .map { [unowned self] in self.actionFrom(intent: $0) }
             .flatMap { [unowned self] in self.processor.process(action: $0) }
-            .share()
-    }()
-    public lazy var state: Observable<State> = {
-        let connectable = self.result
-            .map { result -> RetentionResult? in
-                switch result {
-                case .retentionResult(let r): return r
-                case .disposableResult: return nil
-                }
-            }
-            .filter { $0 != nil }.map { $0! }
-            .scan(State.default(), accumulator: { [unowned self] (p, r) in
-                self.reducer(previousState: p, result: r)
+            .scan(State.default(), accumulator: { [weak self] (p, r) in
+                guard let `self` = self else { return p }
+                return self.reducer(previousState: p, result: r)
+            })
+            .do(onNext: { [weak self] newState in
+                self?._currentState = newState
             })
             .distinctUntilChanged()
             .replay(1)
-        connectable.connect().disposed(by: self.disposeBag)
-        return connectable
-    }()
-    public lazy var task: Observable<Task> = {
-        let connectable = self.result
-            .map { result -> DisposableResult? in
-                switch result {
-                case .retentionResult: return nil
-                case .disposableResult(let d): return d
-                }
-            }
-            .filter { $0 != nil }.map { $0! }
-            .map { [unowned self] in self.taskFrom(result: $0)  }
-            .publish()
+        
         connectable.connect().disposed(by: self.disposeBag)
         return connectable
     }()
@@ -93,32 +74,31 @@ open class MviViewModel<I, S, T, A, RR, DR>: MviViewModelProtocol where I: MviIn
         fatalError()
     }
     
-    open func taskFrom(result: DisposableResult) -> Task {
-        fatalError()
-    }
-    
-    open func reducer(previousState: State, result: RetentionResult) -> State {
+    open func reducer(previousState: State, result: Result) -> State {
         fatalError()
     }
 }
 
-public final class AnyViewModel<I, S, T>: MviViewModelProtocol where I: MviIntent, S: MviState, T: MviTask {
+public final class AnyViewModel<I, S>: MviViewModelProtocol where I: MviIntent, S: MviState {
 
     public typealias Intent = I
     public typealias State = S
-    public typealias Task = T
 
     public let state: Observable<State>
-    public let task: Observable<Task>
     private let _processIntent: (Observable<Intent>)->Void
+    private let _currentState: ()->State
 
-    public init<Impl: MviViewModelProtocol>(_ impl: Impl) where Impl.Intent == I, Impl.State == S, Impl.Task == T {
+    public init<Impl: MviViewModelProtocol>(_ impl: Impl) where Impl.Intent == I, Impl.State == S {
         self.state = impl.state
-        self.task = impl.task
         self._processIntent = impl.process
+        self._currentState = impl.currentState
     }
 
     public func process(intents: Observable<Intent>) {
         self._processIntent(intents)
+    }
+    
+    public func currentState() -> State {
+        return self._currentState()
     }
 }

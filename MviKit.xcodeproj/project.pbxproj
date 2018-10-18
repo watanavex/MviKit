@@ -11,7 +11,6 @@
 		EF184F6020EDCF1300CCB0F9 /* MviState.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF184F5920EDCF1200CCB0F9 /* MviState.swift */; };
 		EF184F6120EDCF1300CCB0F9 /* MviResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF184F5A20EDCF1300CCB0F9 /* MviResult.swift */; };
 		EF184F6220EDCF1300CCB0F9 /* MviAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF184F5B20EDCF1300CCB0F9 /* MviAction.swift */; };
-		EF184F6320EDCF1300CCB0F9 /* MviTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF184F5C20EDCF1300CCB0F9 /* MviTask.swift */; };
 		EF184F6420EDCF1300CCB0F9 /* MviIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF184F5D20EDCF1300CCB0F9 /* MviIntent.swift */; };
 		EF184F6520EDCF1300CCB0F9 /* MviViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF184F5E20EDCF1300CCB0F9 /* MviViewModel.swift */; };
 		EF184F6620EDCF1300CCB0F9 /* MviProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF184F5F20EDCF1300CCB0F9 /* MviProcessor.swift */; };
@@ -29,7 +28,6 @@
 		EF184F5920EDCF1200CCB0F9 /* MviState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MviState.swift; sourceTree = "<group>"; };
 		EF184F5A20EDCF1300CCB0F9 /* MviResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MviResult.swift; sourceTree = "<group>"; };
 		EF184F5B20EDCF1300CCB0F9 /* MviAction.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MviAction.swift; sourceTree = "<group>"; };
-		EF184F5C20EDCF1300CCB0F9 /* MviTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MviTask.swift; sourceTree = "<group>"; };
 		EF184F5D20EDCF1300CCB0F9 /* MviIntent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MviIntent.swift; sourceTree = "<group>"; };
 		EF184F5E20EDCF1300CCB0F9 /* MviViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MviViewModel.swift; sourceTree = "<group>"; };
 		EF184F5F20EDCF1300CCB0F9 /* MviProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MviProcessor.swift; sourceTree = "<group>"; };
@@ -79,7 +77,6 @@
 				EF184F5B20EDCF1300CCB0F9 /* MviAction.swift */,
 				EF184F5A20EDCF1300CCB0F9 /* MviResult.swift */,
 				EF184F5920EDCF1200CCB0F9 /* MviState.swift */,
-				EF184F5C20EDCF1300CCB0F9 /* MviTask.swift */,
 				EF184F5F20EDCF1300CCB0F9 /* MviProcessor.swift */,
 				EF184F5E20EDCF1300CCB0F9 /* MviViewModel.swift */,
 				EF184F6D20EDD05500CCB0F9 /* TemplateType.swift */,
@@ -186,7 +183,6 @@
 				EF184F6520EDCF1300CCB0F9 /* MviViewModel.swift in Sources */,
 				EF184F6420EDCF1300CCB0F9 /* MviIntent.swift in Sources */,
 				EF3BF4FC20EE18260096AE19 /* UIViewController+Rx.swift in Sources */,
-				EF184F6320EDCF1300CCB0F9 /* MviTask.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
